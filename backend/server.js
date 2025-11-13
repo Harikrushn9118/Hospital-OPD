@@ -11,6 +11,10 @@ import doctorRoutes from "./routes/doctors.js"
 import appointmentRoutes from "./routes/appointments.js"
 import prescriptionRoutes from "./routes/prescriptions.js"
 import slotRoutes from "./routes/slots.js"
+import notificationRoutes from "./routes/notifications.js"
+
+// Services
+import { startReminderScheduler } from "./lib/reminder-service.js"
 
 dotenv.config()
 
@@ -32,6 +36,7 @@ app.use("/api/doctors", doctorRoutes)
 app.use("/api/appointments", appointmentRoutes)
 app.use("/api/prescriptions", prescriptionRoutes)
 app.use("/api/slots", slotRoutes)
+app.use("/api/notifications", notificationRoutes)
 
 // Real-time socket connection
 io.on("connection", (socket) => {
@@ -63,6 +68,7 @@ const PORT = process.env.PORT || 3001
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
+  startReminderScheduler() // Reminder scheduler start karo
 })
 
 export default { app, io }
